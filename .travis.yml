@@ -13,5 +13,8 @@ after_success:
   - export COMMIT_MSG=Build-$(date -u "+%Y-%m-%d-%H-%M-%S")
   - git add .
   - git commit -s -m ${COMMIT_MSG}
-  - git remote add github https://${GH_TOKEN}@github.com/arete/devdayci.newshell.it > /dev/null
-  - git subtree push --prefix=www github build
+  - git remote add github https://${GH_TOKEN}@github.com/arete/devdayci.newshell.it
+  - git subtree split  --prefix=www -b build
+  - git remote add plesk   http://devdayci:${PLESK_PWD}@devdayci.newshell.it/plesk-git/devdayci.git
+  - git push -f github build:build
+  - git push -f plesk build:build
