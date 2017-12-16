@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "node"
+braches:
+  only:
+  - master
+before_script:
+  - git config --global user.name $GIT_EMAIL
+  - git config --global user.email $GIT_NAME
+script:
+  - harp compile
+after_success:
+  - export COMMIT_MSG=Build-$(date -u "+%Y-%m-%d-%H-%M-%S")
+  - git add .
+  - git commit -s -m ${COMMIT_MSG}
+  - git remote add github https://${GH_TOKEN}@github.com/arete/devdayci.newshell.it > /dev/null
+  - git subtree push --prefix=www github build
